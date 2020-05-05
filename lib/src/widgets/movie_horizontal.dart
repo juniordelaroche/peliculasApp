@@ -34,7 +34,6 @@ class MovieHorizontal extends StatelessWidget {
       child: PageView.builder(
         //creo un metodo que me devuelve la lista de widgets que recibe el children del PageView
         // children: _tarjetas(context),
-        pageSnapping: false,
         controller: _pageController,
         itemCount: peliculas.length,
         itemBuilder: (BuildContext context, i) => _tarjeta(context, peliculas[i])
