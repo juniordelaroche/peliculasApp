@@ -5,7 +5,7 @@ class Cast {
 
   Cast();
 
-  Cast.fromJsonMap(List<dynamic> jsonList) {
+  Cast.fromJsonList(List<dynamic> jsonList) {
 
     if(jsonList == null) return;
 

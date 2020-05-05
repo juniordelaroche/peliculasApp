@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:peliculas/src/models/actores_model.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -47,6 +47,7 @@ class PeliculasProvider {
   }
 
   Future<List<Pelicula>> getPopulares() async {
+
     // Esta validacion es para evitar que la app haga peticiones seguidas y solo las haga cuando sea necesario
     if (_cargando) return []; 
 
@@ -69,5 +70,23 @@ class PeliculasProvider {
     _cargando = false;
     
     return resp;
+  }
+
+  Future<List<Actor>> getCast(String idPelicula) async {
+    
+    final url = Uri.https(_url, '3/movie/$idPelicula/credits', {
+      'api_key'   : _apiKey,
+      'languaje'  : _language,
+    });
+
+    // aca cae toda la respuesta de esa peticion, si hubo error o no o el body de la respuesta que es lo que me interesa, el await se usa para esperar y no tener que usar el .them y las otras propiedades
+    final resp = await http.get(url);
+    // aca toma todo el string y lo transforma en un map  
+    final decodedData = json.decode(resp.body);
+
+    final cast = Cast.fromJsonList(decodedData['cast']);
+
+    return cast.actores;
+
   }
 }
